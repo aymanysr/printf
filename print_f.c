@@ -2,13 +2,17 @@
 
 int _printf(const char *format, ...)
 {
-	/*An array of structures, each defining a format specifier and a corresponding function for handling that specifier.*/
+	/**
+	 * An array of structures, each defining a format specifier
+	 * and a corresponding function for handling that specifier.
+	 */
 	convert_match m[] = {
 		{"%c", printf_char}, {"%s", printf_string}, {"%%", printf_37}
 	};
 
 	va_list args_list;
-	int i =0, j, len = 0;
+
+	int i = 0, j, len = 0;
 
 	va_start(args_list, format);
 	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
@@ -18,8 +22,7 @@ int _printf(const char *format, ...)
 
 	while (format[i] != '\0') /*Loop through the format string.*/
 	{
-		/*Initialize j to the last index of the conversion specifier array.*/
-		j = 2;
+		j = 2; /*Initialize j to the last index of the conversion specifier array.*/
 		while (j >= 0)
 		{
 			/*Check if the current format matches any of the conversion specifiers.*/
@@ -32,7 +35,10 @@ int _printf(const char *format, ...)
 			}
 			j--;
 		}
-		/*if no matching conversion specifier is found, print the character and update the length*/
+		/*
+		 * if no matching conversion specifier is found,
+		 * print the character and update the length
+		 */
 		if (j < 0)
 		{
 			_putchar(format[i]);
