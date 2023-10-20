@@ -2,73 +2,45 @@
 
 int _printf(const char *format, ...)
 {
-	int char_print = 0;
+	/*An array of structures, each defining a format specifier and a corresponding function for handling that specifier.*/
+	convert_match m[] = {
+		{"%c", printf_char}, {"%s", printf_string}, {"%%", printf_37}
+	};
 
 	va_list args_list;
+	int i =0, j, len = 0;
 
-	if (format == NULL)
+	va_start(args_list, format);
+	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
 	{
 		return (-1);
 	}
 
-	va_start(args_list, format);
-
-	while (*format) /*a loop that iterates through the chars of the format*/
+	while (format[i] != '\0') /*Loop through the format string.*/
 	{
-		if (*format != '%') /*if format is not the % sign*/
+		/*Initialize j to the last index of the conversion specifier array.*/
+		j = 2;
+		while (j >= 0)
 		{
-			write(1, format, 1); /*write the char to the standard output*/
-			char_print++;
+			/*Check if the current format matches any of the conversion specifiers.*/
+			if (m[j].specifier[0] == format[i] && m[j].specifier[1] == format[i + 1])
+			{
+				/*Call the appropriate function and update the length and index.*/
+				len += m[j].p_func(args_list);
+				i += 2;
+				break; /*exit loop*/
+			}
+			j--;
 		}
-		else /*if format is the % sign*/
+		/*if no matching conversion specifier is found, print the character and update the length*/
+		if (j < 0)
 		{
-			format++; /*check the next character*/
-
-			if (*format == '\0') /*if format is null*/
-				break;
-
-			if (*format == '%') /*this is for %%*/
-			{
-				/*handles doube '%'*/
-				write(1, format, 1);
-				char_print++;
-			}
-			else if (*format == 'c')
-			{
-				/*handles '%c'*/
-				char c = va_arg(args_list, int);
-
-				write(1, &c, 1);
-				char_print++;
-			}
-			else if (*format == 's')
-			{
-				/*handles '%s'*/
-				char *str = va_arg(args_list, char*);
-				int str_length = 0;
-
-				/*to calculate the length of str*/
-				while (str[str_length] != '\0')
-					str_length++;
-				/*to write the str to the standard output*/
-				write(1, str, str_length);
-				char_print += str_length;
-			}
+			_putchar(format[i]);
+			len++;
+			i++;
 		}
-
-		format++;
 	}
-
 	va_end(args_list);
 
-	return (char_print);
-}
-
-int main(void)
-{
-	_printf("Aim\n");
-	_printf("%c\n", 'v');
-	_printf("%s\n", "String");
-	_printf("%%\n");
-	return (0);
+	return (len);
 }
