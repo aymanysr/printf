@@ -28,4 +28,6 @@ size_t strlen(const char* str);
 int printf_37(void);
 int printf_dec(va_list args);
 int printf_int(va_list args);
+int printf_bin(va_list val);
+
 #endif
