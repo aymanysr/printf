@@ -3,12 +3,13 @@
 int _printf(const char *format, ...)
 {
 	/**
-	 * An array of structures, each defining a format specifier
+	r* An array of structures, each defining a format specifier
 	 * and a corresponding function for handling that specifier.
 	 */
 	convert_match m[] = {
 		{"%c", printf_char}, {"%s", printf_string}, {"%%", printf_37}, 
-		{"%d", printf_dec}, {"%i", printf_int}, {"%b", printf_bin}
+		{"%d", printf_dec}, {"%i", printf_int}, {"%b", printf_bin}, {"%u", printf_unsigned},
+		{"%o", printf_oct}, {"%x", printf_hex}, {"%X", printf_HEX}
 	};
 
 	va_list args_list;
