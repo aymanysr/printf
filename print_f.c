@@ -7,7 +7,8 @@ int _printf(const char *format, ...)
 	 * and a corresponding function for handling that specifier.
 	 */
 	convert_match m[] = {
-		{"%c", printf_char}, {"%s", printf_string}, {"%%", printf_37}
+		{"%c", printf_char}, {"%s", printf_string}, {"%%", printf_37}, 
+		{"%d", printf_dec}, {"%i", printf_int}
 	};
 
 	va_list args_list;
@@ -22,7 +23,7 @@ int _printf(const char *format, ...)
 
 	while (format[i] != '\0') /*Loop through the format string.*/
 	{
-		j = 2; /*Initialize j to the last index of the conversion specifier array.*/
+		j = 4; /*Initialize j to the last index of the conversion specifier array.*/
 		while (j >= 0)
 		{
 			/*Check if the current format matches any of the conversion specifiers.*/
